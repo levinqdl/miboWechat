@@ -1,0 +1,15 @@
+extends base.pug
+block content
+  div(class='tickets')
+    div(class='item')
+      img(src='/img/girl.png')
+      div(class='right')
+    div(class='item active')
+      img(src='/img/boy.png')
+      div(class='right')
+    div(class='item')
+      img(src='/img/single.png')
+      div(class='right')
+  div(class='op')
+    a(href='?active=1' id='submit') 分享到朋友圈
+  script(type='text/javascript' src='/js/pick.js')

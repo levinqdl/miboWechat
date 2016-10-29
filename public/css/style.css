@@ -1,0 +1,88 @@
+@font-face {
+  font-family: HanziPen_SC;
+  src: url(/font/HanziPen.ttf);
+}
+body {
+  background: #303946;
+  font-family: HanziPen_SC;
+}
+.content {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+.op {
+  height: 150px;
+  text-align: center;
+}
+.op a {
+  background: #E5837A;
+  display: inline-block;
+  width: 568px;
+  height: 80px;
+  border-radius: 8px;
+  color: #ffffff;
+  line-height: 80px;
+  font-weight: bold;
+  font-size: 30px;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+.tickets, .share {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 70px 50px;
+}
+.tickets .item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.tickets img {
+  width: 70%;
+  margin: auto 0;
+}
+.tickets .item.active .right{
+  background: url(/img/pick.png) no-repeat center;
+  width: 30%;
+}
+
+.share {
+  padding: 0;
+  position: relative;
+}
+.share .item {
+  position: absolute;
+  top: 33.33%;
+  width: 100%;
+}
+.share .item img {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+.share-op {
+  height: 300px;
+}
+.share-op a{
+  height: 70px;
+  line-height: 70px;
+  margin-bottom: 30px;
+}
+
+.success, .fail {
+  flex: 1;
+  color: #ffffff;
+  font-size: 40px;
+  text-align: center;
+  letter-spacing: 3px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
