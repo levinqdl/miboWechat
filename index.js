@@ -20,6 +20,11 @@ app.get('/success', (req, res)=>{
 app.get('/fail', (req, res)=>{
   res.render('fail');
 })
+
+app.get('/wechat', (req, res)=>{
+  console.log(req.params);
+})
+
 app.listen(3000, ()=>{
   console.log('app listening on port 3000!');
 });
