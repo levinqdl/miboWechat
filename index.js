@@ -23,6 +23,8 @@ app.get('/fail', (req, res)=>{
 
 app.get('/wechat', (req, res)=>{
   console.log(req.params);
+  let {echostr} = req.params;
+  res.send(echostr);
 })
 
 app.listen(3000, ()=>{
