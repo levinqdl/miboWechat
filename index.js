@@ -21,9 +21,9 @@ app.get('/fail', (req, res)=>{
   res.render('fail');
 })
 
-app.get('/wechat', (req, res)=>{
-  console.log(req.params);
-  let {echostr} = req.params;
+app.get('/mibo/wechat', (req, res)=>{
+  console.log(req.query);
+  let {echostr} = req.query;
   res.send(echostr);
 })
 
