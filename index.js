@@ -6,7 +6,7 @@ let APPID = 'wxa53e261b6bca3b5f';
 const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
 
 request.get(
-  `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}+&secret=${SECRET}`,
+  `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}&secret=${SECRET}`,
   (error, response, body)=>{
     if ( !error && response.statusCode == 200 ){
       console.log(body);
