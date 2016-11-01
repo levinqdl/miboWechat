@@ -1,6 +1,18 @@
 import express from 'express';
 import request from 'request';
 
+let ACCESS_TOKEN = null;
+
+request.get(
+  'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa53e261b6bca3b5f&secret=2a24efaf136d5109b33daab6c0f3985d',
+  (error, response, body)=>{
+    if ( !error && response.statusCode == 200 ){
+      console.log('access_token:'+body.access_token);
+      ACCESS_TOKEN = body.access_token;
+    }
+  }
+)
+
 let app = express();
 app.use(express.static(__dirname+'/public'));
 app.set('views', './views');
@@ -31,7 +43,7 @@ app.get('/mibo/wechat', (req, res)=>{
 app.get('/mibo/createMenu', (req, res)=>{
   console.log('create menu');
   request.post(
-    'https://api.weixin.qq.com/cig-bin/menu/create?access_token=abcdefg',
+    'https://api.weixin.qq.com/cig-bin/menu/create?access_token='+ACCESS_TOKEN,
     {json:{
       "button":[
         {
