@@ -1,4 +1,5 @@
 import express from 'express';
+import request from 'request';
 
 let app = express();
 app.use(express.static(__dirname+'/public'));
@@ -25,6 +26,31 @@ app.get('/mibo/wechat', (req, res)=>{
   console.log(req.query);
   let {echostr} = req.query;
   res.send(echostr);
+})
+
+app.get('/mibo/createMenu', (req, res)=>{
+  request.post(
+    'http://api.wexin.qq.com/cig-bin/menu/create?access_token=abcdefg',
+    {json:{
+      "button":[
+        {
+          "name":"菜单",
+          "sub_button":[
+            {
+              "type":"view",
+              "name":"双11",
+              "url":"http://104.194.91.162:3000"
+            },
+          ]
+        }
+      ]
+    }},
+    (error, response, body)=>{
+      if (!error && response.statusCode == 200) {
+        console.log(body)
+      }
+    }
+  );
 })
 
 app.listen(3000, ()=>{
