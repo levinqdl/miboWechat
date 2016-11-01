@@ -4,6 +4,7 @@ import request from 'request';
 let ACCESS_TOKEN = null;
 let APPID = 'wxa53e261b6bca3b5f';
 const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
+const HOST = 'http://104.194.91.162:3000/'
 
 request.get(
   `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}&secret=${SECRET}`,
@@ -23,7 +24,8 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.get('/', (req, res)=>{
-  res.render('index', {title:'Hey',openid:'xxx'});
+  let {openid} = req.query;
+  res.render('index', {title:'Hey',openid});
 });
 
 app.get('/share', (req, res)=>{
@@ -83,7 +85,7 @@ app.get('/mibo/oauth2', (req, res)=>{
       if ( !error && response.statusCode == 200) {
         let {openid} = JSON.parse(body);
         console.log(openid);
-        res.render('index', {title:'Hey',openid});
+        render.redirect(`${HOST}?openid=${openid}`);
       } else {
         console.log('error');
       }
