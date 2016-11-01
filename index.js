@@ -29,8 +29,9 @@ app.get('/mibo/wechat', (req, res)=>{
 })
 
 app.get('/mibo/createMenu', (req, res)=>{
+  console.log('create menu');
   request.post(
-    'http://api.wexin.qq.com/cig-bin/menu/create?access_token=abcdefg',
+    'https://api.weixin.qq.com/cig-bin/menu/create?access_token=abcdefg',
     {json:{
       "button":[
         {
@@ -48,6 +49,10 @@ app.get('/mibo/createMenu', (req, res)=>{
     (error, response, body)=>{
       if (!error && response.statusCode == 200) {
         console.log(body)
+      }else if (error){
+        console.log(error);
+      }else {
+        console.log(response.statusCode);
       }
     }
   );
