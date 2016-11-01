@@ -85,7 +85,7 @@ app.get('/mibo/oauth2', (req, res)=>{
       if ( !error && response.statusCode == 200) {
         let {openid} = JSON.parse(body);
         console.log(openid);
-        render.redirect(`${HOST}?openid=${openid}`);
+        res.redirect(`${HOST}?openid=${openid}`);
       } else {
         console.log('error');
       }
