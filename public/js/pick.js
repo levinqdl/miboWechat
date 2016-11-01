@@ -17,4 +17,5 @@ handler = function(index) {
 }
 loop(items, function(elem, index) {
   elem.addEventListener('click', handler.bind(this, index));
+  elem.addEventListener('touchstart', handler.bind(this, index));
 })
