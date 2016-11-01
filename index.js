@@ -7,6 +7,8 @@ request.get(
   'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa53e261b6bca3b5f&secret=2a24efaf136d5109b33daab6c0f3985d',
   (error, response, body)=>{
     if ( !error && response.statusCode == 200 ){
+      console.log(body);
+      body = JSON.parse(body);
       console.log('access_token:'+body.access_token);
       ACCESS_TOKEN = body.access_token;
     }
@@ -43,7 +45,7 @@ app.get('/mibo/wechat', (req, res)=>{
 app.get('/mibo/createMenu', (req, res)=>{
   console.log('create menu');
   request.post(
-    'https://api.weixin.qq.com/cig-bin/menu/create?access_token='+ACCESS_TOKEN,
+    'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ACCESS_TOKEN,
     {json:{
       "button":[
         {
