@@ -23,7 +23,7 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.get('/', (req, res)=>{
-  res.render('index', {title:'Hey',message:'hello world'});
+  res.render('index', {title:'Hey',openid:'xxx'});
 });
 
 app.get('/share', (req, res)=>{
@@ -56,7 +56,7 @@ app.get('/mibo/createMenu', (req, res)=>{
             {
               "type":"view",
               "name":"双11",
-              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F104.194.91.162%3A3000%2F&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
+              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F104.194.91.162%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
             },
           ]
         }
@@ -72,6 +72,23 @@ app.get('/mibo/createMenu', (req, res)=>{
       }
     }
   );
+})
+
+app.get('/mibo/oauth2', (req, res)=>{
+  console.log('oauth2');
+  let {code} = req.query;
+  request.get(
+    `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APPID}&secret=${SECRET}&code=${code}&grant_type=authorization_code`,
+    (error, response, body)=>{
+      if ( !error && response.statusCode == 200) {
+        let {openid} = JSON.parse(body);
+        console.log(openid);
+        res.render('index', {title:'Hey',openid});
+      } else {
+        console.log('error');
+      }
+    }
+  )
 })
 
 app.listen(3000, ()=>{
