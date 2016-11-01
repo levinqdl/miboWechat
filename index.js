@@ -2,9 +2,11 @@ import express from 'express';
 import request from 'request';
 
 let ACCESS_TOKEN = null;
+let APPID = 'wxa53e261b6bca3b5f';
+const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
 
 request.get(
-  'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa53e261b6bca3b5f&secret=2a24efaf136d5109b33daab6c0f3985d',
+  `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}+&secret=${SECRET}`,
   (error, response, body)=>{
     if ( !error && response.statusCode == 200 ){
       console.log(body);
@@ -54,7 +56,7 @@ app.get('/mibo/createMenu', (req, res)=>{
             {
               "type":"view",
               "name":"双11",
-              "url":"http://104.194.91.162:3000"
+              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F104.194.91.162%3A3000%2F&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
             },
           ]
         }
