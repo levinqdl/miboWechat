@@ -51,11 +51,12 @@ app.get('/share', (req, res)=>{
 })
 
 app.get('/shareSuccess', (req, res)=>{
+  let {openid, active} = req.query;
   client.connect(function (err) {
     if (err) throw err;
     client.query(
-      'INSERT INTO share_user (openid, time ) VALUES ($1, $2)',
-      [openid, new Date()],
+      'INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)',
+      [openid, new Date(), active],
       function (err, result) {
         if (err) throw err;
 

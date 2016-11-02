@@ -7,7 +7,13 @@ wx.ready(function(){
       desc:'不做单身狗',
       link:HOST+'/share?openid='+openid,
       success: function() {
-        window.location = HOST+'/shareSuccess?openid='+openid;
+        var active = document.getElementsByClassName("active")[0];
+        for ( var i = 0; i < items.length; i++ ){
+          if ( items[i] == active ){
+            window.location = HOST+'/shareSuccess?openid='+openid+'&active='+i;
+            break;
+          }
+        }
       }
     })
   })

@@ -9,7 +9,6 @@ var handler = function(index) {
   loop(items, function(elem, i) {
     if (i === index ){
       elem.className = 'item active';
-      submit.href=submit.href.replace(/active=\d/, 'active='+i);
     } else {
       elem.className = 'item';
     }
