@@ -19,7 +19,7 @@ body {
   height: 150px;
   text-align: center;
 }
-.op a {
+.op #submit {
   background: #E5837A;
   display: inline-block;
   width: 568px;
