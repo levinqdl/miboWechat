@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'request';
 import pg from 'pg';
-import sign from './js/sign';
+import sign from './public/js/sign';
 
 let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
@@ -67,9 +67,9 @@ app.get('/shareSuccess', (req, res)=>{
           if (err) throw err;
         }
       )
-    }
-  )
-  res.render('share_success')
+    })
+  })
+  res.render('share_success');
 })
 
 app.get('/success', (req, res)=>{
