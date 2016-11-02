@@ -40,7 +40,7 @@ var sign = function (jsapi_ticket, url) {
     url: url
   };
   var string = raw(ret);
-      shaObj = new jsSHA('SHA-1', 'TEXT');
+  var shaObj = new jsSHA('SHA-1', 'TEXT');
   shaObj.update(string);
   ret.signature = shaObj.getHash('HEX');
 
