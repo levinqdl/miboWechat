@@ -1,8 +1,8 @@
-var HOST = 'http://mibo.levinqdl.top';
+var HOST = 'http://movie.mizhibo.tv';
 wx.ready(function(){
   submit.addEventListener('click', function(event){
     event.preventDefault();
-    wx.onMenuShareAppMessage({
+    wx.onMenuShareTimeline({
       title:'咪直播双11',
       desc:'不做单身狗',
       link:HOST+'/share?openid='+openid,
