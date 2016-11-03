@@ -7,7 +7,7 @@ let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
 let APPID = 'wxa53e261b6bca3b5f';
 const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
-const HOST = 'http://104.194.91.162:3000/'
+const HOST = 'http://104.194.91.162/mibo'
 let pgClient = new pg.Client('postgres://postgres@104.194.91.162:5432/testdb');
 
 request.get(
@@ -36,23 +36,23 @@ app.use(express.static(__dirname+'/public'));
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-app.get('/', (req, res)=>{
+app.get('/mibo', (req, res)=>{
   let {openid} = req.query;
 
   let timestamp = new Date().getTime();
   let {protocol, hostname, originalUrl} = req;
-  let url = `${protocol}://${hostname}:3000${originalUrl}`;
+  let url = `${protocol}://${hostname}${originalUrl}`;
   console.log(url);
   console.log(JSAPI_TICKET);
   let {noncestr, signature} = sign(JSAPI_TICKET, url);
   res.render('index', {title:'Hey',openid, appId:APPID, timestamp, noncestr, signature});
 });
 
-app.get('/share', (req, res)=>{
+app.get('/mibo/share', (req, res)=>{
   res.render('share');
 })
 
-app.get('/shareSuccess', (req, res)=>{
+app.get('/mibo/shareSuccess', (req, res)=>{
   let {openid, active} = req.query;
   client.connect(function (err) {
     if (err) throw err;
@@ -75,11 +75,11 @@ app.get('/shareSuccess', (req, res)=>{
   res.render('share_success');
 })
 
-app.get('/success', (req, res)=>{
+app.get('/mibo/success', (req, res)=>{
   res.render('success');
 })
 
-app.get('/fail', (req, res)=>{
+app.get('/mibo/fail', (req, res)=>{
   res.render('fail');
 })
 
