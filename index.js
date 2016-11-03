@@ -91,6 +91,7 @@ app.get('/mibo/wechat', (req, res)=>{
 
 app.get('/mibo/createMenu', (req, res)=>{
   console.log('create menu');
+  console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmibo.levinqdl.top%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`);
   request.post(
     'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ACCESS_TOKEN,
     {json:{
@@ -101,7 +102,7 @@ app.get('/mibo/createMenu', (req, res)=>{
             {
               "type":"view",
               "name":"双11",
-              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F${HOST}%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
+              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmibo.levinqdl.top%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
             },
           ]
         }

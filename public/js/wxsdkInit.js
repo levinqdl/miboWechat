@@ -19,5 +19,5 @@ wx.ready(function(){
   })
 })
 wx.error(function(res){
-  alert(res);
+  alert(JSON.stringify(res));
 });
