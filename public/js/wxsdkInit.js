@@ -1,4 +1,4 @@
-var HOST = 'http://104.194.91.162:3000';
+var HOST = 'http://mibo.levinqdl.top';
 wx.ready(function(){
   submit.addEventListener('click', function(event){
     event.preventDefault();
@@ -18,3 +18,6 @@ wx.ready(function(){
     })
   })
 })
+wx.error(function(res){
+  alert(res);
+});
