@@ -42,8 +42,10 @@ app.get('/', (req, res)=>{
   let timestamp = new Date().getTime();
   let {protocol, hostname, originalUrl} = req;
   let url = `${protocol}://${hostname}:3000${originalUrl}`;
-  let {nonceStr, signature} = sign(JSAPI_TICKET, url);
-  res.render('index', {title:'Hey',openid, appId:APPID, timestamp, nonceStr, signature});
+  console.log(url);
+  console.log(JSAPI_TICKET);
+  let {noncestr, signature} = sign(JSAPI_TICKET, url);
+  res.render('index', {title:'Hey',openid, appId:APPID, timestamp, noncestr, signature});
 });
 
 app.get('/share', (req, res)=>{

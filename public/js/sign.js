@@ -35,7 +35,7 @@ var raw = function (args) {
 var sign = function (jsapi_ticket, url) {
   var ret = {
     jsapi_ticket: jsapi_ticket,
-    nonceStr: createNonceStr(),
+    noncestr: createNonceStr(),
     timestamp: createTimestamp(),
     url: url
   };
@@ -43,7 +43,7 @@ var sign = function (jsapi_ticket, url) {
   var shaObj = new jsSHA('SHA-1', 'TEXT');
   shaObj.update(string);
   ret.signature = shaObj.getHash('HEX');
-
+  console.log(ret);
   return ret;
 };
 
