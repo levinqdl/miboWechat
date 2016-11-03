@@ -7,7 +7,7 @@ let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
 let APPID = 'wxa53e261b6bca3b5f';
 const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
-const HOST = 'http://104.194.91.162/'
+const HOST = 'http://mibo.levinqdl.top/'
 let pgClient = new pg.Client('postgres://postgres@104.194.91.162:5432/testdb');
 
 request.get(
