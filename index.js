@@ -41,7 +41,7 @@ app.get('/', (req, res)=>{
 
   let timestamp = new Date().getTime();
   let {protocol, hostname, originalUrl} = req;
-  let url = encodeURIComponent(`${protocol}://${hostname}${originalUrl}`);
+  let url = `${protocol}://${hostname}${originalUrl}`
   console.log(url);
   console.log(JSAPI_TICKET);
   let {noncestr, signature} = sign(JSAPI_TICKET, url);
