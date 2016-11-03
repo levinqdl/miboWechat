@@ -5,8 +5,8 @@ import sign from './public/js/sign';
 
 let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
-let APPID = 'wxa53e261b6bca3b5f';
-const SECRET = '2a24efaf136d5109b33daab6c0f3985d';
+let APPID = 'wx8bd2b906b5ca9515';
+const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
 const HOST = 'http://mibo.levinqdl.top/'
 let pgClient = new pg.Client('postgres://postgres@104.194.91.162:5432/testdb');
 
