@@ -39,7 +39,7 @@ app.set('view engine', 'pug');
 app.get('/', (req, res)=>{
   let {openid} = req.query;
 
-  let timestamp = new Date().getTime();
+  let timestamp = new Date().getTime()/1000;
   let {protocol, hostname, originalUrl} = req;
   let url = `${protocol}://${hostname}${originalUrl}`
   console.log(url);
