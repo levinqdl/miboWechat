@@ -7,7 +7,7 @@ let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
 let APPID = 'wx8bd2b906b5ca9515';
 const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
-const HOST = 'http://mibo.levinqdl.top/'
+const HOST = 'http://movie.mizhibo.tv'
 let pgClient = new pg.Client('postgres://postgres@104.194.91.162:5432/testdb');
 
 request.get(
@@ -91,7 +91,7 @@ app.get('/mibo/wechat', (req, res)=>{
 
 app.get('/mibo/createMenu', (req, res)=>{
   console.log('create menu');
-  console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmibo.levinqdl.top%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`);
+  console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmovie.mizhibo.tv%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`);
   request.post(
     'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ACCESS_TOKEN,
     {json:{
@@ -102,7 +102,7 @@ app.get('/mibo/createMenu', (req, res)=>{
             {
               "type":"view",
               "name":"双11",
-              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmibo.levinqdl.top%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
+              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmovie.mizhibo.tv%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
             },
           ]
         }
