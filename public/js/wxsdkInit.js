@@ -1,5 +1,8 @@
 var HOST = 'http://movie.mizhibo.tv';
 wx.ready(function(){
+  wx.showMenuItems({
+    menuList:["menuItem:share:timeline"]
+  });
   wx.onMenuShareTimeline({
     title:'咪直播双11',
     link:HOST+'/share?openid='+openid,
@@ -12,11 +15,11 @@ wx.ready(function(){
         }
       }
     }
-  })
-})
+  });
+});
 wx.error(function(res){
   alert(JSON.stringify(res));
 });
 submit.addEventListener('click', function() {
   wx.showOptionMenu();
-})
+});
