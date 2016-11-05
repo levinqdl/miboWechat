@@ -1,5 +1,8 @@
 var HOST = 'http://movie.mizhibo.tv';
 wx.ready(function(){
+  wx.hideMenuItems({
+    menuList:["menuItem:share:appMessage"]
+  });
   wx.showMenuItems({
     menuList:["menuItem:share:timeline"]
   });
@@ -21,5 +24,5 @@ wx.error(function(res){
   alert(JSON.stringify(res));
 });
 submit.addEventListener('click', function() {
-  wx.showOptionMenu();
+  wx.showOptionMenu({});
 });

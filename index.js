@@ -8,7 +8,7 @@ let JSAPI_TICKET = null;
 let APPID = 'wx8bd2b906b5ca9515';
 const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
 const HOST = 'http://movie.mizhibo.tv'
-let pgClient = new pg.Client('postgres://postgres@104.194.91.162:5432/testdb');
+let pgClient = new pg.Client('postgres://postgres@127.0.0.1/testdb');
 
 request.get(
   `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}&secret=${SECRET}`,
@@ -53,9 +53,9 @@ app.get('/share', (req, res)=>{
 
 app.get('/shareSuccess', (req, res)=>{
   let {openid, active} = req.query;
-  client.connect(function (err) {
+  pgClient.connect(function (err) {
     if (err) throw err;
-    client.query(
+    pgClient.query(
       'INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)',
       [openid, new Date(), active],
       function (err, result) {
@@ -65,7 +65,7 @@ app.get('/shareSuccess', (req, res)=>{
         console.log(result.rows[0]); // outputs: { name: 'brianc' }
 
         // disconnect the client
-        client.end(function (err) {
+        pgClient.end(function (err) {
           if (err) throw err;
         }
       )
