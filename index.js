@@ -7,11 +7,12 @@ let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
 let APPID = 'wx8bd2b906b5ca9515';
 const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
-const HOST = 'http://movie.mizhibo.tv'
+const DOMAIN = 'movie.mizhibo.tv';
+const BASE_URL = `http://${DOMAIN}`;
 let pgConfig = {
   user: 'postgres',
   database: 'testdb',
-  host: '127.0.0.1',
+  BASE_URL: '127.0.0.1',
   port: 5432,
   max: 10,
   idleTimeoutMills: 30000,
@@ -57,7 +58,26 @@ app.get('/', (req, res)=>{
 });
 
 app.get('/share', (req, res)=>{
-  res.render('share');
+  let {active, openid} = req.query;
+  res.render('share', {active, baseURL:BASE_URL, openid, appId:APPID});
+})
+
+app.get('/follow', (req, res)=>{
+  let {code} = req.query;
+  request.get(
+    `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APPID}&secret=${SECRET}&code=${code}&grant_type=authorization_code`,
+    (error, response, body)=>{
+      if ( !error && response.statusCode == 200) {
+        let {openid:follower} = JSON.parse(body);
+        let {openid} = req.query;
+        console.log('openid', openid);
+        console.log('follower', follower);
+        res.redirect(`${BASE_URL}/success`);
+      } else {
+        console.log('error');
+      }
+    }
+  )
 })
 
 app.get('/shareSuccess', (req, res)=>{
@@ -101,7 +121,6 @@ app.get('/mibo/wechat', (req, res)=>{
 
 app.get('/mibo/createMenu', (req, res)=>{
   console.log('create menu');
-  console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmovie.mizhibo.tv%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`);
   request.post(
     'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ACCESS_TOKEN,
     {json:{
@@ -112,7 +131,7 @@ app.get('/mibo/createMenu', (req, res)=>{
             {
               "type":"view",
               "name":"双11",
-              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2Fmovie.mizhibo.tv%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
+              "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F${DOMAIN}%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`
             },
           ]
         }
@@ -139,7 +158,7 @@ app.get('/mibo/oauth2', (req, res)=>{
       if ( !error && response.statusCode == 200) {
         let {openid} = JSON.parse(body);
         console.log(openid);
-        res.redirect(`${HOST}?openid=${openid}`);
+        res.redirect(`${BASE_URL}?openid=${openid}`);
       } else {
         console.log('error');
       }

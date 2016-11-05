@@ -8,7 +8,7 @@ wx.ready(function(){
   });
   wx.onMenuShareTimeline({
     title:'咪直播双11',
-    link:HOST+'/share?openid='+openid,
+    link:HOST+'/share?openid='+openid+'&active='+i,
     success: function() {
       var active = document.getElementsByClassName("active")[0];
       for ( var i = 0; i < items.length; i++ ){

@@ -3,10 +3,22 @@ block content
   div(class='share')
     div(class='item')
       img(src='/img/girl.png')
-    div(class='item active')
+    div(class='item')
       img(src='/img/boy.png')
     div(class='item')
       img(src='/img/single.png')
   div(class='op share-op')
-    a(href='#') 不做单身狗，我要约TA
-    a(href='?active=1' id='submit') 分享到朋友圈
+    div(class='btn' id='submit') 不做单身狗，我要约TA
+    div(class='btn') 分享到朋友圈
+  script(type='text/javascript').
+    var active = parseInt('#{active}');
+    active = isNaN(active)?0:active;
+    var items = document.getElementsByClassName('item')
+    for(var i = 0; i < items.length; i++){
+      if ( i === active ){
+        items[i].className = 'item active';
+      }
+    }
+    document.getElementById('submit').addEventListener('click', function(){
+      window.location = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+'#{appId}'+'&redirect_uri='+encodeURIComponent('http://Fmovie.mizhibo.tv/follow?openid='+'#{openid}')+'&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
+    })
