@@ -62,7 +62,7 @@ app.get('/share', (req, res)=>{
 
 app.get('/shareSuccess', (req, res)=>{
   let {openid, active} = req.query;
-  pool.connect(function(err, client, done) {
+  pgPool.connect(function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);
     }
