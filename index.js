@@ -67,24 +67,23 @@ app.get('/shareSuccess', (req, res)=>{
       return console.error('error fetching client from pool', err);
     }
     client.query('SELECT * FROM share_user WHERE openid = $1', [openid], function(err, result) {
-        if(err) {
-          return console.error('error running query', err);
-        }
-        if ( result.rows.length === 0 ){
-          client.query('INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)', [openid, new Date(), active], (err, result)=>{
-            done();
-            if (err) {
-              return console.error('error running query', err);
-            }
-          })
-        } else {
+      if(err) {
+        return console.error('error running query', err);
+      }
+      if ( result.rows.length === 0 ){
+        client.query('INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)', [openid, new Date(), active], (err, result)=>{
           done();
-        }
-      });
+          if (err) {
+            return console.error('error running query', err);
+          }
+        })
+      } else {
+        done();
+      }
     });
-  })
+  });
   res.render('share_success');
-})
+});
 
 app.get('/success', (req, res)=>{
   res.render('success');
