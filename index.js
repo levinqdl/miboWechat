@@ -56,20 +56,28 @@ app.get('/shareSuccess', (req, res)=>{
   pgClient.connect(function (err) {
     if (err) throw err;
     pgClient.query(
-      'INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)',
-      [openid, new Date(), active],
+      'SELECT * FROM share_user WHERE openid = $1',
+      [openid],
       function (err, result) {
-        if (err) throw err;
-
-        // just print the result to the console
-        console.log(result.rows[0]); // outputs: { name: 'brianc' }
-
-        // disconnect the client
-        pgClient.end(function (err) {
-          if (err) throw err;
-        }
-      )
-    })
+        if ( err) throw err;
+        console.log(result);
+      }
+    )
+    // pgClient.query(
+    //   'INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)',
+    //   [openid, new Date(), active],
+    //   function (err, result) {
+    //     if (err) throw err;
+    //
+    //     // just print the result to the console
+    //     console.log(result.rows[0]); // outputs: { name: 'brianc' }
+    //
+    //     // disconnect the client
+    //     pgClient.end(function (err) {
+    //       if (err) throw err;
+    //     }
+    //   )
+    // })
   })
   res.render('share_success');
 })
