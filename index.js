@@ -8,6 +8,15 @@ let JSAPI_TICKET = null;
 let APPID = 'wx8bd2b906b5ca9515';
 const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
 const HOST = 'http://movie.mizhibo.tv'
+let pgConfig = {
+  user: 'postgres',
+  database: 'testdb',
+  host: '127.0.0.1',
+  port: 5432,
+  max: 10,
+  idleTimeoutMills: 30000,
+};
+let pgPool = new pg.Pool(pgConfig);
 let pgClient = new pg.Client('postgres://postgres@127.0.0.1/testdb');
 
 request.get(
@@ -53,31 +62,26 @@ app.get('/share', (req, res)=>{
 
 app.get('/shareSuccess', (req, res)=>{
   let {openid, active} = req.query;
-  pgClient.connect(function (err) {
-    if (err) throw err;
-    pgClient.query(
-      'SELECT * FROM share_user WHERE openid = $1',
-      [openid],
-      function (err, result) {
-        if ( err) throw err;
-        console.log(result);
-      }
-    )
-    // pgClient.query(
-    //   'INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)',
-    //   [openid, new Date(), active],
-    //   function (err, result) {
-    //     if (err) throw err;
-    //
-    //     // just print the result to the console
-    //     console.log(result.rows[0]); // outputs: { name: 'brianc' }
-    //
-    //     // disconnect the client
-    //     pgClient.end(function (err) {
-    //       if (err) throw err;
-    //     }
-    //   )
-    // })
+  pool.connect(function(err, client, done) {
+    if(err) {
+      return console.error('error fetching client from pool', err);
+    }
+    client.query('SELECT * FROM share_user WHERE openid = $1', [openid], function(err, result) {
+        if(err) {
+          return console.error('error running query', err);
+        }
+        if ( result.rows.length === 0 ){
+          client.query('INSERT INTO share_user (openid, time, active ) VALUES ($1, $2, $3)', [openid, new Date(), active], (err, result)=>{
+            done();
+            if (err) {
+              return console.error('error running query', err);
+            }
+          })
+        } else {
+          done();
+        }
+      });
+    });
   })
   res.render('share_success');
 })
