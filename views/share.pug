@@ -9,7 +9,7 @@ block content
       img(src='/img/single.png')
   div(class='op share-op')
     div(class='btn' id='submit') 不做单身狗，我要约TA
-    div(class='hint') 分享到朋友圈
+    a(href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{appId}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=1#wechat_redirect') 去生成我的粮票
   script(type='text/javascript').
     var active = parseInt('#{active}');
     active = isNaN(active)?0:active;
