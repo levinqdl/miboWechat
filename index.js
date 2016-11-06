@@ -92,7 +92,7 @@ app.get('/', (req, res)=>{
 
 app.get('/share', (req, res)=>{
   let {active, openid} = req.query;
-  res.render('share', {active, baseURL:BASE_URL, openid, appId:APPID});
+  res.render('share', {active, baseURL:BASE_URL, openid, appId:APPID, redirect_uri:encodeURIComponent(BASE_URL)});
 })
 
 app.get('/follow', (req, res)=>{
