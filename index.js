@@ -93,24 +93,27 @@ app.get('/follow', (req, res)=>{
     `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APPID}&secret=${SECRET}&code=${code}&grant_type=authorization_code`,
     (error, response, body)=>{
       if ( !error && response.statusCode == 200) {
-	console.log(body);
-        let {openid:follower, nickname, headimgurl:avatar} = JSON.parse(body);
+        let {openid:follower, access_token} = JSON.parse(body);
         let {openid} = req.query;
-        console.log('openid', openid);
-        console.log('follower', follower);
-        if ( openid !== follower )
+        if ( openid !== follower ){
           pgCon((client, done)=>{
             client.query('SELECT * FROM dates WHERE openid = $1', [openid], (err, result)=>{
               if (err) {return console.error('error running query', err);}
               if ( result.rows.length === 0 ){
-                client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
-                  done();
-                  if ( err ) {return console.error('error running query', err);}
-                  res.render('success', {
-                    appId:APPID,
-                    redirect_uri:encodeURIComponent(BASE_URL)
+                request.get(
+                  `https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${follower}&lang=zh_CN`,
+                  (error, response, body)=>{
+                    if ( !error && response.statusCode == 200) {
+                    let {nickname, headimgurl:avatar} = JSON.parse(body);
+                    client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
+                      done();
+                      if ( err ) {return console.error('error running query', err);}
+                      res.render('success', {
+                        appId:APPID,
+                        redirect_uri:encodeURIComponent(BASE_URL)
+                      });
+                    });
                   });
-                });
               } else {
                 done();
                 let {follower: f} = result.rows[0];
@@ -128,13 +131,13 @@ app.get('/follow', (req, res)=>{
               }
             })
           })
-        else
+        } else{
           res.render('self');
-      } else {
-        console.log('error');
+        }
       }
-    }
-  )
+  } else {
+    console.log('error');
+  })
 })
 
 app.get('/shareSuccess', (req, res)=>{
