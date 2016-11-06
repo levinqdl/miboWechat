@@ -120,8 +120,9 @@ app.get('/shareSuccess', (req, res)=>{
       } else {
         done();
       }
-  })
-  res.render('share_success');
+    })
+    res.render('share_success');
+  });
 });
 
 app.get('/success', (req, res)=>{
