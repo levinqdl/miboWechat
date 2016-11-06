@@ -93,7 +93,8 @@ app.get('/follow', (req, res)=>{
     `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APPID}&secret=${SECRET}&code=${code}&grant_type=authorization_code`,
     (error, response, body)=>{
       if ( !error && response.statusCode == 200) {
-        let {openid:follower, nickname, avatar:headimgurl} = JSON.parse(body);
+	console.log(body);
+        let {openid:follower, nickname, headimgurl:avatar} = JSON.parse(body);
         let {openid} = req.query;
         console.log('openid', openid);
         console.log('follower', follower);
