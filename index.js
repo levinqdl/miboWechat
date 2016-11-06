@@ -21,7 +21,7 @@ let pgPool = new pg.Pool(pgConfig);
 let pgClient = new pg.Client('postgres://postgres@127.0.0.1/testdb');
 function pgCon(querys) {
   pgClient.connect((err, client, done)=>{
-    if ( err ) return console.error('error fetching client from pool', err);
+    if ( err ) {return console.error('error fetching client from pool', err);}
     querys(client, done);
   })
 }
@@ -81,11 +81,11 @@ app.get('/follow', (req, res)=>{
         if ( openid !== follower )
           pgCon((client, done)=>{
             client.query('SELECT * FROM dates WHERE openid = $1', [openid], (err, result)=>{
-              if (err) return console.error('error running query', err);
+              if (err) {return console.error('error running query', err);}
               if ( result.rows.length === 0 ){
                 client.query('INSERT INTO dates (openid, follower, time) VALUES ($1, $2, $3)', [openid, follower, new Date()], (err, result)=>{
                   done();
-                  if ( err ) return console.error('error running query', err);
+                  if ( err ) {return console.error('error running query', err);}
                   res.render('success');
                 });
               } else {
