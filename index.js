@@ -120,10 +120,18 @@ app.get('/follow', (req, res)=>{
                 });
               } else {
                 done();
-                res.render('fail', {
-                  appId:APPID,
-                  redirect_uri:encodeURIComponent(BASE_URL)
-                });
+                let {follower: f} = result.rows[0];
+                if ( f === follower ){
+                  res.render('success', {
+                    appId:APPID,
+                    redirect_uri:encodeURIComponent(BASE_URL)
+                  })
+                } else {
+                  res.render('fail', {
+                    appId:APPID,
+                    redirect_uri:encodeURIComponent(BASE_URL)
+                  });
+                }
               }
             })
           })
