@@ -54,13 +54,40 @@ app.set('view engine', 'pug');
 
 app.get('/', (req, res)=>{
   let {openid} = req.query;
-  let timestamp = Math.floor(new Date().getTime()/1000);
-  let {protocol, hostname, originalUrl} = req;
-  let url = `${protocol}://${hostname}${originalUrl}`
-  console.log(url);
-  console.log(JSAPI_TICKET);
-  let {noncestr, signature} = sign(JSAPI_TICKET, url);
-  res.render('index', {title:'Hey',openid, appId:APPID, timestamp, noncestr, signature});
+  pgCon((client, done)=>{
+    client.query('SELECT * FROM dates WHERE openid = $1', [openid], (err, result)=>{
+      if ( err ) return console.error('error running query', err);
+      if ( result.rows.length > 0 ){
+        done();
+        let {follower} = result.rows[0];
+        request.get(
+          `https://api.weixin.qq.com/cgi-bin/user/info?access_token=${ACCESS_TOKEN}&openid=${follower}&lang=zh_CN`,
+          (error, response, body)=>{
+            if ( !error && response.statusCode === 200 ){
+              let {nickname, headimgurl} = JSON.parse(body);
+              res.render('result', {nickname, headimgurl});
+            }
+          }
+        )
+      } else {
+        client.query('SELECT * FROM share_user WHERE openid = $1', [openid], (err, result)=>{
+          done();
+          if ( err ) return console.error('error running query', err);
+          if ( result.rows.length > 0 ){
+            res.render('self');
+          } else {
+            let timestamp = Math.floor(new Date().getTime()/1000);
+            let {protocol, hostname, originalUrl} = req;
+            let url = `${protocol}://${hostname}${originalUrl}`;
+            console.log(url);
+            console.log(JSAPI_TICKET);
+            let {noncestr, signature} = sign(JSAPI_TICKET, url);
+            res.render('index', {title:'Hey',openid, appId:APPID, timestamp, noncestr, signature});
+          }
+        })
+      }
+    })
+  })
 });
 
 app.get('/share', (req, res)=>{
@@ -86,11 +113,17 @@ app.get('/follow', (req, res)=>{
                 client.query('INSERT INTO dates (openid, follower, time) VALUES ($1, $2, $3)', [openid, follower, new Date()], (err, result)=>{
                   done();
                   if ( err ) {return console.error('error running query', err);}
-                  res.render('success');
+                  res.render('success', {
+                    appId:APPID,
+                    redirect_uri:encodeURIComponent(BASE_URL)
+                  });
                 });
               } else {
                 done();
-                res.render('fail');
+                res.render('fail', {
+                  appId:APPID,
+                  redirect_uri:encodeURIComponent(BASE_URL)
+                });
               }
             })
           })

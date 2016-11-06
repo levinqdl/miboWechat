@@ -19,8 +19,7 @@ body {
   height: 150px;
   text-align: center;
 }
-.op #submit, .op .btn {
-  background: #E5837A;
+.op #submit, .op .btn, .op a {
   display: inline-block;
   width: 568px;
   height: 80px;
@@ -31,6 +30,9 @@ body {
   font-size: 30px;
   text-decoration: none;
   letter-spacing: 2px;
+}
+.op a {
+  background: #E5837A;
 }
 
 .tickets, .share {
@@ -79,7 +81,7 @@ body {
   margin-bottom: 30px;
 }
 
-.success, .fail, .self {
+.success, .fail, .self, .result {
   flex: 1;
   color: #ffffff;
   font-size: 40px;
