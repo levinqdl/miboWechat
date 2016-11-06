@@ -12,7 +12,7 @@ function activeX(){
 var option = {
   title:'咪直播双11',
   imgUrl:HOST+'/img/mibo.jpeg',
-  link: null,
+  link:HOST+'/share?openid='+openid+'&active=1'
   success: function() {
     window.location = HOST+'/shareSuccess?openid='+openid+'&active='+activeX();
   }
@@ -22,6 +22,7 @@ var handler = function(index) {
     if (i === index ){
       elem.className = 'item active';
       option.link = HOST+'/share?openid='+openid+'&active='+activeX();
+      wx.onMenuShareTimeline(option);
     } else {
       elem.className = 'item';
     }
@@ -35,7 +36,6 @@ loop(items, function(elem, index) {
   elem.addEventListener('click', handler.bind(this, index));
 })
 
-wx.onMenuShareTimeline(option);
 wx.error(function(res){
   console.error(JSON.stringify(res));
 });
