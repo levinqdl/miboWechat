@@ -20,7 +20,7 @@ let pgConfig = {
 let pgPool = new pg.Pool(pgConfig);
 let pgClient = new pg.Client('postgres://postgres@127.0.0.1/testdb');
 function pgCon(querys) {
-  pgClient.connect((err, client, done)=>{
+  pgPool.connect((err, client, done)=>{
     if ( err ) {return console.error('error fetching client from pool', err);}
     querys(client, done);
   })
