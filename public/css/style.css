@@ -79,7 +79,7 @@ body {
   margin-bottom: 30px;
 }
 
-.success, .fail {
+.success, .fail, .self {
   flex: 1;
   color: #ffffff;
   font-size: 40px;
