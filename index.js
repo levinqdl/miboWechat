@@ -19,6 +19,12 @@ let pgConfig = {
 };
 let pgPool = new pg.Pool(pgConfig);
 let pgClient = new pg.Client('postgres://postgres@127.0.0.1/testdb');
+function pgCon(querys) {
+  pgClient.connect((err, client, done)=>{
+    if ( err ) return console.error('error fetching client from pool', err);
+    querys(client, done);
+  })
+}
 
 request.get(
   `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${APPID}&secret=${SECRET}`,
@@ -72,7 +78,24 @@ app.get('/follow', (req, res)=>{
         let {openid} = req.query;
         console.log('openid', openid);
         console.log('follower', follower);
-        res.redirect(`${BASE_URL}/success`);
+        if ( openid !== follower )
+          pgCon((client, done)=>{
+            client.query('SELECT * FROM dates WHERE openid = $1', [openid], (err, result)=>{
+              if (err) return console.error('error running query', err);
+              if ( result.rows.length === 0 ){
+                client.query('INSERT INTO dates (openid, follower, time) VALUES ($1, $2, $3)', [openid, follower, new Date()], (err, result)=>{
+                  done();
+                  if ( err ) return console.error('error running query', err);
+                  res.render('success');
+                });
+              } else {
+                done();
+                res.render('fail');
+              }
+            })
+          })
+        else
+          res.render('self');
       } else {
         console.log('error');
       }
@@ -82,10 +105,7 @@ app.get('/follow', (req, res)=>{
 
 app.get('/shareSuccess', (req, res)=>{
   let {openid, active} = req.query;
-  pgPool.connect(function(err, client, done) {
-    if(err) {
-      return console.error('error fetching client from pool', err);
-    }
+  pgCon((client, done)=>{
     client.query('SELECT * FROM share_user WHERE openid = $1', [openid], function(err, result) {
       if(err) {
         return console.error('error running query', err);
@@ -100,8 +120,7 @@ app.get('/shareSuccess', (req, res)=>{
       } else {
         done();
       }
-    });
-  });
+  })
   res.render('share_success');
 });
 
