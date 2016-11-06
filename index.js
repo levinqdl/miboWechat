@@ -104,15 +104,16 @@ app.get('/follow', (req, res)=>{
                   `https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${follower}&lang=zh_CN`,
                   (error, response, body)=>{
                     if ( !error && response.statusCode == 200) {
-                    let {nickname, headimgurl:avatar} = JSON.parse(body);
-                    client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
-                      done();
-                      if ( err ) {return console.error('error running query', err);}
-                      res.render('success', {
-                        appId:APPID,
-                        redirect_uri:encodeURIComponent(BASE_URL)
+                      let {nickname, headimgurl:avatar} = JSON.parse(body);
+                      client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
+                        done();
+                        if ( err ) {return console.error('error running query', err);}
+                        res.render('success', {
+                          appId:APPID,
+                          redirect_uri:encodeURIComponent(BASE_URL)
+                        });
                       });
-                    });
+                    }
                   });
               } else {
                 done();
