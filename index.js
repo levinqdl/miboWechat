@@ -163,6 +163,10 @@ app.get('/shareSuccess', (req, res)=>{
   });
 });
 
+app.get('/result', (req, res)=>{
+  res.render('result', {nickname:'abc', avatar:'/img/boy.png'});
+})
+
 app.get('/success', (req, res)=>{
   res.render('success');
 })
