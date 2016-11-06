@@ -59,16 +59,8 @@ app.get('/', (req, res)=>{
       if ( err ) return console.error('error running query', err);
       if ( result.rows.length > 0 ){
         done();
-        let {follower} = result.rows[0];
-        request.get(
-          `https://api.weixin.qq.com/cgi-bin/user/info?access_token=${ACCESS_TOKEN}&openid=${follower}&lang=zh_CN`,
-          (error, response, body)=>{
-            if ( !error && response.statusCode === 200 ){
-              let {nickname, headimgurl} = JSON.parse(body);
-              res.render('result', {nickname, headimgurl});
-            }
-          }
-        )
+        let {nickname, avatar} = result.rows[0];
+        res.render('result', {nickname, avatar});
       } else {
         client.query('SELECT * FROM share_user WHERE openid = $1', [openid], (err, result)=>{
           done();
@@ -101,7 +93,7 @@ app.get('/follow', (req, res)=>{
     `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${APPID}&secret=${SECRET}&code=${code}&grant_type=authorization_code`,
     (error, response, body)=>{
       if ( !error && response.statusCode == 200) {
-        let {openid:follower} = JSON.parse(body);
+        let {openid:follower, nickname, avatar:headimgurl} = JSON.parse(body);
         let {openid} = req.query;
         console.log('openid', openid);
         console.log('follower', follower);
@@ -110,7 +102,7 @@ app.get('/follow', (req, res)=>{
             client.query('SELECT * FROM dates WHERE openid = $1', [openid], (err, result)=>{
               if (err) {return console.error('error running query', err);}
               if ( result.rows.length === 0 ){
-                client.query('INSERT INTO dates (openid, follower, time) VALUES ($1, $2, $3)', [openid, follower, new Date()], (err, result)=>{
+                client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
                   done();
                   if ( err ) {return console.error('error running query', err);}
                   res.render('success', {

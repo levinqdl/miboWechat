@@ -91,3 +91,12 @@ body {
   justify-content: center;
   flex-direction: column;
 }
+
+.result .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+.result .hint .nickname {
+  font-family: "Microsoft YaHei","simsun",Arial,serif;
+}
