@@ -135,9 +135,9 @@ app.get('/follow', (req, res)=>{
         } else{
           res.render('self');
         }
+      }else {
+        console.log('error');
       }
-  } else {
-    console.log('error');
   })
 })
 
