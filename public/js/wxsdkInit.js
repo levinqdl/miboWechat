@@ -10,6 +10,7 @@ function activeX(){
 wx.ready(function(){
   wx.onMenuShareTimeline({
     title:'咪直播双11',
+    imgUrl:HOST+'/img/mibo.jpeg',
     link:HOST+'/share?openid='+openid+'&active='+activeX(),
     success: function() {
       window.location = HOST+'/shareSuccess?openid='+openid+'&active='+activeX();
