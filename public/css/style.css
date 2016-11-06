@@ -19,7 +19,7 @@ body {
   height: 150px;
   text-align: center;
 }
-.op #submit, .op .btn, .op a {
+.op #submit, .op .btn, .op a, .op .hint {
   display: inline-block;
   width: 568px;
   height: 80px;
@@ -31,7 +31,7 @@ body {
   text-decoration: none;
   letter-spacing: 2px;
 }
-.op a {
+.op a, .op .btn {
   background: #E5837A;
 }
 
