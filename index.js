@@ -7,6 +7,7 @@ let ACCESS_TOKEN = null;
 let JSAPI_TICKET = null;
 let APPID = 'wx8bd2b906b5ca9515';
 const SECRET = 'e99675d28f11a45d76a77e70dd9e196e';
+const TEMPLATE_ID = '96L21k4prSq3vvfnMfIAxYlZQCDqGxVYVV2MJzMidek';
 const DOMAIN = 'movie.mizhibo.tv';
 const BASE_URL = `http://${DOMAIN}`;
 let pgConfig = {
@@ -108,6 +109,42 @@ app.get('/follow', (req, res)=>{
                       client.query('INSERT INTO dates (openid, follower, time, nickname, avatar) VALUES ($1, $2, $3, $4, $5)', [openid, follower, new Date(), nickname, avatar], (err, result)=>{
                         done();
                         if ( err ) {return console.error('error running query', err);}
+                        request.post(
+                          `https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=${ACCESS_TOKEN}`
+                          {
+                            "touser":openid,
+                            "template_id":TEMPLATE_ID,
+                            "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F${DOMAIN}%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`,
+                            "topcolor":"#FFFFFF",
+                            "data":{
+                              "first": {
+                                "value":"恭喜你，离脱单更进一步啦",
+                                "color":"#000000"
+                              },
+                              "keyword1":{
+                                "value":"你脱TA，我买单",
+                                "color":"#000000"
+                              },
+                              "keyword2":{
+                                "value":"11月11日 11点11分",
+                                "color":"#000000"
+                              },
+                              "keyword3":{
+                                "value":"四季汉庭任你选",
+                                "color":"#000000"
+                              },
+                              "remark":{
+                                "value":"感谢您的参与，点击查看活动详情",
+                                "color":"#000000"
+                              }
+                            }
+                          },
+                          (error, response, body)=>{
+                            if ( error ){
+                              console.error(error);
+                            }
+                          }
+                        )
                         res.render('success', {
                           appId:APPID,
                           redirect_uri:encodeURIComponent(BASE_URL)
