@@ -114,7 +114,7 @@ app.get('/follow', (req, res)=>{
                           {"json":{
                             "touser":openid,
                             "template_id":TEMPLATE_ID,
-                            "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F${DOMAIN}%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`,
+                            "url":`${BASE_URL}?openid=${openid}`,
                             "topcolor":"#FFFFFF",
                             "data":{
                               "first": {
@@ -143,7 +143,7 @@ app.get('/follow', (req, res)=>{
                             if ( error ){
                               console.error(error);
                             } else if ( response.statusCode === 200 ){
-                              console.log(JSON.parse(body));
+                              console.log(body);
                             }
                           }
                         )
