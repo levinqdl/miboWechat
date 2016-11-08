@@ -1,4 +1,5 @@
-import jsSHA from 'jssha';
+//import jsSHA from 'jssha';
+var jsSHA = require('jssha');
 
 var createNonceStr = function () {
   return Math.random().toString(36).substr(2, 15);
@@ -47,4 +48,5 @@ var sign = function (jsapi_ticket, url) {
   return ret;
 };
 
-export default sign;
+//export default sign;
+module.exports = sign;

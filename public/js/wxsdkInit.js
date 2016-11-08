@@ -12,7 +12,7 @@ function activeX(){
 var option = {
   title:'咪直播双11',
   imgUrl:HOST+'/img/mibo.jpeg',
-  link:HOST+'/share?openid='+openid+'&active=1'
+  link:HOST+'/share?openid='+openid+'&active=1',
   success: function() {
     window.location = HOST+'/shareSuccess?openid='+openid+'&active='+activeX();
   }

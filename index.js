@@ -110,8 +110,8 @@ app.get('/follow', (req, res)=>{
                         done();
                         if ( err ) {return console.error('error running query', err);}
                         request.post(
-                          `https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=${ACCESS_TOKEN}`
-                          {
+                          `https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=${ACCESS_TOKEN}`,
+                          {"json":{
                             "touser":openid,
                             "template_id":TEMPLATE_ID,
                             "url":`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=http%3A%2F%2F${DOMAIN}%2Fmibo%2Foauth2&response_type=code&scope=snsapi_base&state=1#wechat_redirect`,
@@ -138,10 +138,12 @@ app.get('/follow', (req, res)=>{
                                 "color":"#000000"
                               }
                             }
-                          },
+                          }},
                           (error, response, body)=>{
                             if ( error ){
                               console.error(error);
+                            } else if ( response.statusCode === 200 ){
+                              console.log(JSON.parse(body));
                             }
                           }
                         )
