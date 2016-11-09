@@ -267,6 +267,6 @@ app.get('/mibo/oauth2', (req, res)=>{
   )
 })
 
-app.listen(3000, ()=>{
+app.listen(80, ()=>{
   console.log('app listening on port 3000!');
 });

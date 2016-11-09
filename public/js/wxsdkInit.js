@@ -10,7 +10,7 @@ function activeX(){
   }
 }
 var option = {
-  title:'咪直播双11',
+  title:'光棍节不孤单，双十一快来约我看电影吧',
   imgUrl:HOST+'/img/mibo.jpeg',
   link:HOST+'/share?openid='+openid+'&active=1',
   success: function() {
